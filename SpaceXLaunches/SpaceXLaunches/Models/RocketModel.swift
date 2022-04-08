@@ -33,7 +33,7 @@ struct RocketModel: Decodable {
     let firstStage: StageModel?
     let secondStage: StageModel?
     
-    let imagesLinks: [String?]
+    let imagesLinks: [String]?
     
     let id: String?
     
@@ -51,7 +51,7 @@ struct RocketParametersModel: Decodable {
     let height: Height?
     let diameter: Diameter?
     let mass: Mass?
-    let capacity: [Capacity?]
+    let capacity: [Capacity]?
     
 }
 

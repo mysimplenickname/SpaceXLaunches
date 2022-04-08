@@ -5,7 +5,7 @@
 //  Created by Leo Malikov on 05.04.2022.
 //
 
-import Foundation
+import UIKit
 import Alamofire
 
 final class NetworkService {
@@ -28,6 +28,18 @@ final class NetworkService {
                 }
             }
             .cacheResponse(using: .cache)
+        
+    }
+    
+    static func getImage(from url: String, completion: @escaping (UIImage?) -> Void) {
+        
+        AF
+            .request(url, method: .get)
+            .response { response in
+                guard let data = response.data else { return }
+                completion(UIImage(data: data))
+            }
+            .cacheResponse(using: .doNotCache)
         
     }
     
@@ -77,11 +89,8 @@ final class NetworkService {
             .response { response in
                 guard let data = response.data else { return }
                 do {
-                    let launcesResponse = try JSONDecoder().decode(LaunchesResponse.self, from: data).docs
-                    launcesResponse.forEach {
-                        if let launch = $0 {
-                            launches.append(launch)
-                        }
+                    if let launcesResponse = try JSONDecoder().decode(LaunchesResponse.self, from: data).docs {
+                        launches = launcesResponse
                     }
                     completion(launches)
                 } catch {

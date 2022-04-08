@@ -9,7 +9,7 @@ import Foundation
 
 struct LaunchesResponse: Decodable {
     
-    let docs: [LaunchModel?]
+    let docs: [LaunchModel]?
     
 }
 
