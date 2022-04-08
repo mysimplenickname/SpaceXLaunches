@@ -1,0 +1,170 @@
+//
+//  RocketStagesInfoView.swift
+//  SpaceXLaunches
+//
+//  Created by Leo Malikov on 09.04.2022.
+//
+
+import UIKit
+
+class RocketStagesInfoView: UIView {
+
+    lazy var mainLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .boldSystemFont(ofSize: 20)
+        label.text = "Ступень".capitalized
+        label.textAlignment = .left
+        return label
+    }()
+    
+    lazy var enginesLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .systemFont(ofSize: 16)
+        label.textColor = .gray
+        label.text = "Количество двигателей"
+        label.textAlignment = .left
+        return label
+    }()
+    
+    lazy var enginesValueLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .boldSystemFont(ofSize: 16)
+        label.text = "nil"
+        label.textAlignment = .right
+        return label
+    }()
+    
+    lazy var fuelAmountLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .systemFont(ofSize: 16)
+        label.textColor = .gray
+        label.text = "Количество топлива"
+        label.textAlignment = .left
+        return label
+    }()
+    
+    lazy var fuelAmountValueLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .boldSystemFont(ofSize: 16)
+        label.text = "nil"
+        label.textAlignment = .right
+        return label
+    }()
+    
+    lazy var fuelAmountUnitsLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .boldSystemFont(ofSize: 16)
+        label.textColor = .darkGray
+        label.text = "ton"
+        label.textAlignment = .center
+        return label
+    }()
+    
+    lazy var burnTimeLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .systemFont(ofSize: 16)
+        label.textColor = .gray
+        label.text = "Время сгорания"
+        label.textAlignment = .left
+        return label
+    }()
+    
+    lazy var burnTimeValueLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .boldSystemFont(ofSize: 16)
+        label.text = "nil"
+        label.textAlignment = .right
+        return label
+    }()
+    
+    lazy var burnTimeUnitsLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .boldSystemFont(ofSize: 16)
+        label.textColor = .darkGray
+        label.text = "sec"
+        label.textAlignment = .center
+        return label
+    }()
+    
+    private var layout: [(UIView, UIView, UIView?)] {
+        return [
+            (enginesLabel, enginesValueLabel, nil),
+            (fuelAmountLabel, fuelAmountValueLabel, fuelAmountUnitsLabel),
+            (burnTimeLabel, burnTimeValueLabel, burnTimeUnitsLabel)
+        ]
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupUI()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        setupUI()
+    }
+    
+    private func setupUI() {
+        
+        self.backgroundColor = .white
+        
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.alignment = .fill
+        stackView.distribution = .equalCentering
+        
+        stackView.addArrangedSubview(mainLabel)
+        
+        for line in layout {
+            
+            let lineStackView = UIStackView()
+            lineStackView.translatesAutoresizingMaskIntoConstraints = false
+            lineStackView.widthAnchor.constraint(equalToConstant: self.frame.width).isActive = true
+            lineStackView.axis = .horizontal
+            lineStackView.alignment = .fill
+            lineStackView.distribution = .fill
+            lineStackView.spacing = 4
+            
+            let subLineStackView = UIStackView(arrangedSubviews: [line.0, line.1])
+            subLineStackView.translatesAutoresizingMaskIntoConstraints = false
+            subLineStackView.widthAnchor.constraint(equalToConstant: self.frame.width - 80).isActive = true
+            subLineStackView.axis = .horizontal
+            subLineStackView.alignment = .fill
+            subLineStackView.distribution = .fill
+            
+            lineStackView.addArrangedSubview(subLineStackView)
+            
+            if let units = line.2 {
+                lineStackView.addArrangedSubview(units)
+            } else {
+                let view = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 80, height: 30))
+                view.translatesAutoresizingMaskIntoConstraints = false
+                lineStackView.addArrangedSubview(view)
+            }
+            
+            stackView.addArrangedSubview(lineStackView)
+            
+        }
+        
+        self.addSubview(stackView)
+
+        NSLayoutConstraint.activate([
+            stackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 16),
+            stackView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 16),
+            stackView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -16),
+            stackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -16)
+        ])
+        
+    }
+
+}
