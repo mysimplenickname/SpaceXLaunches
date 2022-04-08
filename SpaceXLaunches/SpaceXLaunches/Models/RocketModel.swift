@@ -12,11 +12,6 @@ struct RocketModel: Decodable {
     enum CodingKeys: String, CodingKey {
         case name
         
-        case height
-        case diameter
-        case mass
-        case capacity = "payload_weights"
-        
         case firstLaunch = "first_flight"
         case country
         case launchCost = "cost_per_launch"
@@ -31,11 +26,6 @@ struct RocketModel: Decodable {
     
     let name: String?
     
-    let height: Height?
-    let diameter: Diameter?
-    let mass: Mass?
-    let capacity: [Capacity?]
-    
     let firstLaunch: String?
     let country: String?
     let launchCost: Double?
@@ -46,6 +36,22 @@ struct RocketModel: Decodable {
     let imagesLinks: [String?]
     
     let id: String?
+    
+}
+
+struct RocketParametersModel: Decodable {
+    
+    enum CodingKeys: String, CodingKey {
+        case height
+        case diameter
+        case mass
+        case capacity = "payload_weights"
+    }
+    
+    let height: Height?
+    let diameter: Diameter?
+    let mass: Mass?
+    let capacity: [Capacity?]
     
 }
 
