@@ -10,17 +10,20 @@ import UIKit
 final class RocketParametersViewController: UIViewController {
 
     lazy var collectionView: UICollectionView = {
+
+        let itemSize = view.frame.width / 3 - 20
         
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.itemSize = CGSize(width: 128.0, height: 128.0)
+        layout.itemSize = CGSize(width: itemSize, height: itemSize)
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.backgroundColor = .black
+        collectionView.register(RocketParametersCell.self, forCellWithReuseIdentifier: RocketParametersCell.reuseIdentifier)
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.register(RocketParametersCell.self, forCellWithReuseIdentifier: RocketParametersCell.reuseIdentifier)
+        collectionView.backgroundColor = .black
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         collectionView.allowsSelection = false
         collectionView.showsHorizontalScrollIndicator = false
         return collectionView
@@ -28,10 +31,10 @@ final class RocketParametersViewController: UIViewController {
     }()
     
     var rocketParameters: [(String, Double?)] = [
-        ("Height", nil),
-        ("Diameter", nil),
-        ("Mass", nil),
-        ("Capacity", nil)
+        ("Высота", nil),
+        ("Диаметр", nil),
+        ("Масса", nil),
+        ("Нагрузка", nil)
     ] {
         didSet {
             DispatchQueue.main.async { [weak self] in
@@ -55,8 +58,8 @@ final class RocketParametersViewController: UIViewController {
             
             collectionView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             collectionView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            collectionView.heightAnchor.constraint(equalToConstant: 128),
-            collectionView.widthAnchor.constraint(equalToConstant: view.frame.width - 8)
+            collectionView.heightAnchor.constraint(equalToConstant: view.frame.width / 3),
+            collectionView.widthAnchor.constraint(equalToConstant: view.frame.width)
             
         ])
         
@@ -66,10 +69,10 @@ final class RocketParametersViewController: UIViewController {
         NetworkService.getRocketParameters(for: "5e9d0d95eda69955f709d1eb") { [weak self] rocketParameters in
             if let rocketParameters = rocketParameters {
                 self?.rocketParameters = [
-                    ("Height", rocketParameters.height?.meters ?? 0.0),
-                    ("Diameter", rocketParameters.diameter?.meters ?? 0.0),
-                    ("Mass", rocketParameters.mass?.kg ?? 0.0),
-                    ("Capacity", rocketParameters.capacity?[0].kg ?? 0.0)
+                    ("Высота, m", rocketParameters.height?.meters ?? 0.0),
+                    ("Диаметр, m", rocketParameters.diameter?.meters ?? 0.0),
+                    ("Масса, kg", rocketParameters.mass?.kg ?? 0.0),
+                    ("Нагрузка, kg", rocketParameters.capacity?[0].kg ?? 0.0)
                 ]
             }
         }
@@ -77,7 +80,7 @@ final class RocketParametersViewController: UIViewController {
     
 }
 
-extension RocketParametersViewController: UICollectionViewDataSource, UICollectionViewDelegate{
+extension RocketParametersViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         rocketParameters.count

@@ -11,19 +11,19 @@ final class RocketParametersCell: UICollectionViewCell {
  
     static let reuseIdentifier = "RocketParametersCell"
     
-    private lazy var parameterNameLabel: UILabel = {
+    lazy var parameterValueLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 12)
+        label.font = .boldSystemFont(ofSize: 16)
         label.textColor = .white
         return label
     }()
     
-    private lazy var parameterValueLabel: UILabel = {
+    lazy var parameterNameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 12)
-        label.textColor = .white
+        label.font = .systemFont(ofSize: 16)
+        label.textColor = .gray
         return label
     }()
     
@@ -38,20 +38,21 @@ final class RocketParametersCell: UICollectionViewCell {
     }
     
     func fillParameters(name: String?, value: Double?) {
-        parameterNameLabel.text = name ?? "nil"
         parameterValueLabel.text = value?.description ?? "nil"
+        parameterNameLabel.text = name ?? "nil"
     }
     
     private func setupUI() {
         
-        contentView.backgroundColor = .darkGray
-        contentView.layer.cornerRadius = 24
+        contentView.backgroundColor = UIColor(red: 33/255, green: 33/255, blue: 33/255, alpha: 1)
+        contentView.layer.cornerRadius = contentView.frame.height / 3
         
-        let parametersStackView = UIStackView(arrangedSubviews: [parameterNameLabel, parameterValueLabel])
+        let parametersStackView = UIStackView(arrangedSubviews: [parameterValueLabel, parameterNameLabel])
         parametersStackView.translatesAutoresizingMaskIntoConstraints = false
         parametersStackView.axis = .vertical
         parametersStackView.alignment = .center
         parametersStackView.distribution = .equalCentering
+        parametersStackView.spacing = 4
         
         contentView.addSubview(parametersStackView)
         
