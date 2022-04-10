@@ -39,7 +39,7 @@ final class NetworkService {
                 guard let data = response.data else { return }
                 completion(UIImage(data: data))
             }
-            .cacheResponse(using: .doNotCache)
+            .cacheResponse(using: .cache)
         
     }
     
