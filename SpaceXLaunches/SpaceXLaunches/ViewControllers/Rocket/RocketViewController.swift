@@ -83,7 +83,7 @@ final class RocketViewController: UIViewController {
             rocketName.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             rocketName.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
             rocketName.widthAnchor.constraint(equalToConstant: view.frame.width),
-            rocketName.heightAnchor.constraint(equalToConstant: 120),
+            rocketName.heightAnchor.constraint(equalToConstant: view.frame.width / 3),
             
             rocketParametersView.topAnchor.constraint(equalTo: rocketName.bottomAnchor),
             rocketParametersView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
@@ -93,12 +93,12 @@ final class RocketViewController: UIViewController {
             rocketInfoView.topAnchor.constraint(equalTo: rocketParametersView.bottomAnchor, constant: 16),
             rocketInfoView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
             rocketInfoView.widthAnchor.constraint(equalToConstant: view.frame.width),
-            rocketInfoView.heightAnchor.constraint(equalToConstant: 128),
+            rocketInfoView.heightAnchor.constraint(equalToConstant: view.frame.width / 3),
             
             rocketStagesInfoView.topAnchor.constraint(equalTo: rocketInfoView.bottomAnchor, constant: 16),
             rocketStagesInfoView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
             rocketStagesInfoView.widthAnchor.constraint(equalToConstant: view.frame.width),
-            rocketStagesInfoView.heightAnchor.constraint(equalToConstant: 200)
+            rocketStagesInfoView.heightAnchor.constraint(equalToConstant: view.frame.width / 9 * 4)
             
         ])
         

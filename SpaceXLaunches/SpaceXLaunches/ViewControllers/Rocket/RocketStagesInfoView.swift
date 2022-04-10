@@ -23,7 +23,7 @@ class RocketStagesInfoView: UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 16)
-        label.textColor = .gray
+        label.textColor = .lightGray
         label.textAlignment = .left
         label.text = "Количество двигателей"
         return label
@@ -43,7 +43,7 @@ class RocketStagesInfoView: UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 16)
-        label.textColor = .gray
+        label.textColor = .lightGray
         label.textAlignment = .left
         label.text = "Количество топлива"
         return label
@@ -63,7 +63,7 @@ class RocketStagesInfoView: UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .boldSystemFont(ofSize: 16)
-        label.textColor = .darkGray
+        label.textColor = .gray
         label.textAlignment = .center
         label.text = "ton"
         return label
@@ -73,7 +73,7 @@ class RocketStagesInfoView: UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 16)
-        label.textColor = .gray
+        label.textColor = .lightGray
         label.textAlignment = .left
         label.text = "Время сгорания"
         return label
@@ -93,7 +93,7 @@ class RocketStagesInfoView: UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .boldSystemFont(ofSize: 16)
-        label.textColor = .darkGray
+        label.textColor = .gray
         label.textAlignment = .center
         label.text = "sec"
         return label
