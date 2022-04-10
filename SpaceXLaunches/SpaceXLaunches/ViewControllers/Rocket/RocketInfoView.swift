@@ -14,8 +14,8 @@ class RocketInfoView: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 16)
         label.textColor = .gray
-        label.text = "Первый запуск"
         label.textAlignment = .left
+        label.text = "Первый запуск"
         return label
     }()
     
@@ -23,8 +23,9 @@ class RocketInfoView: UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 16)
-        label.text = "nil"
+        label.textColor = .white
         label.textAlignment = .right
+        label.text = "nil"
         return label
     }()
     
@@ -33,8 +34,8 @@ class RocketInfoView: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 16)
         label.textColor = .gray
-        label.text = "Страна"
         label.textAlignment = .left
+        label.text = "Страна"
         return label
     }()
     
@@ -42,8 +43,9 @@ class RocketInfoView: UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 16)
-        label.text = "nil"
+        label.textColor = .white
         label.textAlignment = .right
+        label.text = "nil"
         return label
     }()
     
@@ -52,8 +54,8 @@ class RocketInfoView: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 16)
         label.textColor = .gray
-        label.text = "Стоимость запуска"
         label.textAlignment = .left
+        label.text = "Стоимость запуска"
         return label
     }()
     
@@ -61,8 +63,9 @@ class RocketInfoView: UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 16)
-        label.text = "nil"
+        label.textColor = .white
         label.textAlignment = .right
+        label.text = "nil"
         return label
     }()
     
@@ -74,19 +77,14 @@ class RocketInfoView: UIView {
         ]
     }
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupUI()
-    }
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
+    override func layoutIfNeeded() {
+        super.layoutIfNeeded()
         setupUI()
     }
     
     private func setupUI() {
         
-        self.backgroundColor = .white
+        self.backgroundColor = .black
         
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false

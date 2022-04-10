@@ -13,8 +13,9 @@ class RocketStagesInfoView: UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .boldSystemFont(ofSize: 20)
-        label.text = "Ступень".capitalized
+        label.textColor = .white
         label.textAlignment = .left
+        label.text = "Ступень".capitalized
         return label
     }()
     
@@ -23,8 +24,8 @@ class RocketStagesInfoView: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 16)
         label.textColor = .gray
-        label.text = "Количество двигателей"
         label.textAlignment = .left
+        label.text = "Количество двигателей"
         return label
     }()
     
@@ -32,8 +33,9 @@ class RocketStagesInfoView: UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .boldSystemFont(ofSize: 16)
-        label.text = "nil"
+        label.textColor = .white
         label.textAlignment = .right
+        label.text = "nil"
         return label
     }()
     
@@ -42,8 +44,8 @@ class RocketStagesInfoView: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 16)
         label.textColor = .gray
-        label.text = "Количество топлива"
         label.textAlignment = .left
+        label.text = "Количество топлива"
         return label
     }()
     
@@ -51,8 +53,9 @@ class RocketStagesInfoView: UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .boldSystemFont(ofSize: 16)
-        label.text = "nil"
+        label.textColor = .white
         label.textAlignment = .right
+        label.text = "nil"
         return label
     }()
     
@@ -61,8 +64,8 @@ class RocketStagesInfoView: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .boldSystemFont(ofSize: 16)
         label.textColor = .darkGray
-        label.text = "ton"
         label.textAlignment = .center
+        label.text = "ton"
         return label
     }()
     
@@ -71,8 +74,8 @@ class RocketStagesInfoView: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 16)
         label.textColor = .gray
-        label.text = "Время сгорания"
         label.textAlignment = .left
+        label.text = "Время сгорания"
         return label
     }()
     
@@ -80,8 +83,9 @@ class RocketStagesInfoView: UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .boldSystemFont(ofSize: 16)
-        label.text = "nil"
+        label.textColor = .white
         label.textAlignment = .right
+        label.text = "nil"
         return label
     }()
     
@@ -90,8 +94,8 @@ class RocketStagesInfoView: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .boldSystemFont(ofSize: 16)
         label.textColor = .darkGray
-        label.text = "sec"
         label.textAlignment = .center
+        label.text = "sec"
         return label
     }()
     
@@ -103,19 +107,14 @@ class RocketStagesInfoView: UIView {
         ]
     }
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupUI()
-    }
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
+    override func layoutIfNeeded() {
+        super.layoutIfNeeded()
         setupUI()
     }
     
     private func setupUI() {
         
-        self.backgroundColor = .white
+        self.backgroundColor = .black
         
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
