@@ -46,9 +46,10 @@ final class RocketParametersViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         getRocketParameters()
+        setupUI()
     }
     
-    func setupUI() {
+    private func setupUI() {
         
         view.backgroundColor = .black
         

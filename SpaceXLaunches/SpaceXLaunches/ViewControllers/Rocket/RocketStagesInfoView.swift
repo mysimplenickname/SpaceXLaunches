@@ -107,8 +107,13 @@ class RocketStagesInfoView: UIView {
         ]
     }
     
-    override func layoutIfNeeded() {
-        super.layoutIfNeeded()
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupUI()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
         setupUI()
     }
     

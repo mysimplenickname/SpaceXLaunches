@@ -8,7 +8,7 @@
 import UIKit
 
 class RocketNameView: UIView {
-
+    
     lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -26,8 +26,13 @@ class RocketNameView: UIView {
         return button
     }()
     
-    override func layoutIfNeeded() {
-        super.layoutIfNeeded()
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupUI()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
         setupUI()
     }
     
