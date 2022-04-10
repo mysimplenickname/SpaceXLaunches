@@ -14,16 +14,16 @@ final class RocketParametersCell: UICollectionViewCell {
     private lazy var parameterNameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .black
         label.font = .systemFont(ofSize: 12)
+        label.textColor = .white
         return label
     }()
     
     private lazy var parameterValueLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .black
         label.font = .systemFont(ofSize: 12)
+        label.textColor = .white
         return label
     }()
     
@@ -38,15 +38,14 @@ final class RocketParametersCell: UICollectionViewCell {
     }
     
     func fillParameters(name: String?, value: Double?) {
-        print(name, value)
         parameterNameLabel.text = name ?? "nil"
         parameterValueLabel.text = value?.description ?? "nil"
     }
     
     private func setupUI() {
         
-        contentView.layer.borderColor = UIColor.black.cgColor
-        contentView.layer.borderWidth = 2
+        contentView.backgroundColor = .darkGray
+        contentView.layer.cornerRadius = 24
         
         let parametersStackView = UIStackView(arrangedSubviews: [parameterNameLabel, parameterValueLabel])
         parametersStackView.translatesAutoresizingMaskIntoConstraints = false

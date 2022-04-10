@@ -9,7 +9,7 @@ import UIKit
 
 final class RocketParametersViewController: UIViewController {
 
-    private lazy var collectionView: UICollectionView = {
+    lazy var collectionView: UICollectionView = {
         
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -17,6 +17,7 @@ final class RocketParametersViewController: UIViewController {
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.backgroundColor = .black
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(RocketParametersCell.self, forCellWithReuseIdentifier: RocketParametersCell.reuseIdentifier)
@@ -42,12 +43,11 @@ final class RocketParametersViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         getRocketParameters()
-        setupUI()
     }
-
-    private func setupUI() {
+    
+    func setupUI() {
         
-        view.backgroundColor = .white
+        view.backgroundColor = .black
         
         view.addSubview(collectionView)
         
