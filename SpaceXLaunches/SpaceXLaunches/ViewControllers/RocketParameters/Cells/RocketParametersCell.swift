@@ -44,7 +44,7 @@ final class RocketParametersCell: UICollectionViewCell {
     
     private func setupUI() {
         
-        contentView.backgroundColor = UIColor(red: 33/255, green: 33/255, blue: 33/255, alpha: 1)
+        contentView.backgroundColor = .darkGray2
         contentView.layer.cornerRadius = contentView.frame.height / 3
         
         let parametersStackView = UIStackView(arrangedSubviews: [parameterValueLabel, parameterNameLabel])

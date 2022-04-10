@@ -31,7 +31,7 @@ class ShowLaunchesView: UIView {
     
     private func setupUI() {
         
-        self.backgroundColor = UIColor(red: 33/255, green: 33/255, blue: 33/255, alpha: 1)
+        self.backgroundColor = .darkGray2
         self.layer.cornerRadius = 16
         
         self.addSubview(showLaunchesLabel)
