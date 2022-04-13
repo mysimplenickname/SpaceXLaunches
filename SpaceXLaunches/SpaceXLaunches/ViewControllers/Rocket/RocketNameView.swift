@@ -23,6 +23,7 @@ class RocketNameView: UIView {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(systemName: "gearshape"), for: .normal)
+        button.addTarget(self, action: #selector(settingsButtonPressed(_:)), for: .touchUpInside)
         return button
     }()
     
@@ -37,6 +38,8 @@ class RocketNameView: UIView {
     }
     
     private func setupUI() {
+        
+        self.isUserInteractionEnabled = true
         
         self.backgroundColor = .black
         self.layer.cornerRadius = 24
@@ -55,6 +58,10 @@ class RocketNameView: UIView {
             stackView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
         ])
         
+    }
+    
+    @objc private func settingsButtonPressed(_ sender: Any?) {
+        print("hello")
     }
     
 }
