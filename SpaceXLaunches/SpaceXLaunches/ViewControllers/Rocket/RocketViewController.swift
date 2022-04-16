@@ -10,86 +10,108 @@ import UIKit
 final class RocketViewController: UIViewController {
     
     lazy var backgroundImageView: UIImageView = {
-        let imageView = UIImageView()
+        let imageView = UIImageView(frame: CGRect(x: 0.0, y: 0.0, width: view.frame.width, height: view.frame.height))
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.backgroundColor = .black
-        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleToFill
         return imageView
     }()
     
+    lazy var scrollView: UIScrollView = {
+        let scrollView = UIScrollView(frame: CGRect(x: 0.0, y: 0.0, width: view.frame.width, height: view.frame.height))
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.showsVerticalScrollIndicator = false
+        return scrollView
+    }()
+    
+    lazy var blackView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .black
+        view.layer.cornerRadius = 24
+        return view
+    }()
+    
+    lazy var rocketNameView: RocketNameView = {
+        let rocketNameView = RocketNameView(frame: CGRect(x: 0.0, y: 0.0, width: view.frame.width, height: view.frame.width / 3))
+        rocketNameView.translatesAutoresizingMaskIntoConstraints = false
+        return rocketNameView
+    }()
+    
+    lazy var rocketParametersViewController: RocketParametersViewController = {
+        return RocketParametersViewController()
+    }()
+    
+    lazy var rocketInfoView: RocketInfoView = {
+        let rocketInfoView = RocketInfoView(frame: CGRect(x: 0.0, y: 0.0, width: view.frame.width, height: view.frame.width / 3))
+        rocketInfoView.translatesAutoresizingMaskIntoConstraints = false
+        return rocketInfoView
+    }()
+    
+    lazy var rocketFirstStageInfoView: RocketStagesInfoView = {
+        let rocketFirstStageInfoView = RocketStagesInfoView(frame: CGRect(x: 0.0, y: 0.0, width: view.frame.width, height: view.frame.width / 9 * 4))
+        rocketFirstStageInfoView.translatesAutoresizingMaskIntoConstraints = false
+        return rocketFirstStageInfoView
+    }()
+    
+    lazy var rocketSecondStageInfoView: RocketStagesInfoView = {
+        let rocketSecondStageInfoView = RocketStagesInfoView(frame: CGRect(x: 0.0, y: 0.0, width: view.frame.width, height: view.frame.width / 9 * 4))
+        rocketSecondStageInfoView.translatesAutoresizingMaskIntoConstraints = false
+        return rocketSecondStageInfoView
+    }()
+    
+    lazy var showLaunchesView: ShowLaunchesView = {
+        let showLaunchesView = ShowLaunchesView(frame: CGRect(x: 0.0, y: 0.0, width: view.frame.width - 32, height: view.frame.width / 6))
+        showLaunchesView.translatesAutoresizingMaskIntoConstraints = false
+        return showLaunchesView
+    }()
+    
+    private var rocketDataController: RocketDataController?
+    
     var rocket: RocketModel? {
         didSet {
-            setBackgroundImage()
+            setupDataController()
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        NetworkService.getRockets { [weak self] rockets in
-            if rockets.count != 0 {
-                self?.rocket = rockets[2]
-            }
-        }
-        
         setupUI()
     }
     
-    private func setBackgroundImage() {
+    private func setupDataController() {
         
-        guard
-            let rocket = rocket,
-            let imagesLinks = rocket.imagesLinks,
-            let imageUrl = imagesLinks.randomElement()
-        else { return }
-        
-        NetworkService.getImage(from: imageUrl) { image in
-            DispatchQueue.main.async { [weak self] in
-                self?.backgroundImageView.image = image
-            }
-        }
-        
+        guard let rocket = rocket else { return }
+
+        rocketDataController = RocketDataController(for: rocket)
+        rocketDataController?.rocketViewController = self
+
     }
     
     private func setupUI() {
         
+        view.backgroundColor = .black
+        
         view.addSubview(backgroundImageView)
         
-        let scrollView = UIScrollView(frame: CGRect(x: 0.0, y: 0.0, width: view.frame.width, height: view.frame.height))
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.showsVerticalScrollIndicator = false
         view.addSubview(scrollView)
         
-        let blackView = UIView()
-        blackView.translatesAutoresizingMaskIntoConstraints = false
-        blackView.backgroundColor = .black
-        blackView.layer.cornerRadius = 24
         scrollView.addSubview(blackView)
         
-        let rocketName = RocketNameView(frame: CGRect(x: 0.0, y: 0.0, width: view.frame.width, height: view.frame.width / 3))
-        rocketName.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.addSubview(rocketName)
+        scrollView.addSubview(rocketNameView)
         
-        let rocketParametersViewController = RocketParametersViewController()
         self.addChild(rocketParametersViewController)
         let rocketParametersView = rocketParametersViewController.view!
         rocketParametersView.translatesAutoresizingMaskIntoConstraints = false
+        rocketParametersViewController.didMove(toParent: self)
         scrollView.addSubview(rocketParametersView)
 
-        let rocketInfoView = RocketInfoView(frame: CGRect(x: 0.0, y: 0.0, width: view.frame.width, height: view.frame.width / 3))
-        rocketInfoView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(rocketInfoView)
 
-        let rocketFirstStageInfoView = RocketStagesInfoView(frame: CGRect(x: 0.0, y: 0.0, width: view.frame.width, height: view.frame.width / 9 * 4))
-        rocketFirstStageInfoView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(rocketFirstStageInfoView)
 
-        let rocketSecondStageInfoView = RocketStagesInfoView(frame: CGRect(x: 0.0, y: 0.0, width: view.frame.width, height: view.frame.width / 9 * 4))
-        rocketSecondStageInfoView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(rocketSecondStageInfoView)
 
-        let showLaunchesView = ShowLaunchesView(frame: CGRect(x: 0.0, y: 0.0, width: view.frame.width - 32, height: view.frame.width / 6))
-        showLaunchesView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(showLaunchesView)
         
         NSLayoutConstraint.activate([
@@ -105,12 +127,12 @@ final class RocketViewController: UIViewController {
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             scrollView.widthAnchor.constraint(equalTo: view.widthAnchor),
             
-            rocketName.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: scrollView.frame.height / 2 - 64),
-            rocketName.leftAnchor.constraint(equalTo: scrollView.leftAnchor),
-            rocketName.widthAnchor.constraint(equalToConstant: scrollView.frame.width),
-            rocketName.heightAnchor.constraint(equalToConstant: scrollView.frame.width / 3),
+            rocketNameView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: scrollView.frame.height / 2 - 64),
+            rocketNameView.leftAnchor.constraint(equalTo: scrollView.leftAnchor),
+            rocketNameView.widthAnchor.constraint(equalToConstant: scrollView.frame.width),
+            rocketNameView.heightAnchor.constraint(equalToConstant: scrollView.frame.width / 3),
 
-            rocketParametersView.topAnchor.constraint(equalTo: rocketName.bottomAnchor),
+            rocketParametersView.topAnchor.constraint(equalTo: rocketNameView.bottomAnchor),
             rocketParametersView.leftAnchor.constraint(equalTo: scrollView.leftAnchor),
             rocketParametersView.widthAnchor.constraint(equalToConstant: scrollView.frame.width),
             rocketParametersView.heightAnchor.constraint(equalToConstant: scrollView.frame.width / 3),
@@ -136,7 +158,7 @@ final class RocketViewController: UIViewController {
             showLaunchesView.heightAnchor.constraint(equalToConstant: scrollView.frame.width / 6),
             showLaunchesView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
 
-            blackView.topAnchor.constraint(equalTo: rocketName.topAnchor),
+            blackView.topAnchor.constraint(equalTo: rocketNameView.topAnchor),
             blackView.leftAnchor.constraint(equalTo: scrollView.leftAnchor),
             blackView.widthAnchor.constraint(equalToConstant: scrollView.frame.width),
             blackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: 256)

@@ -9,7 +9,7 @@ import UIKit
 
 class RocketStagesInfoView: UIView {
 
-    lazy var mainLabel: UILabel = {
+    private lazy var mainLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .boldSystemFont(ofSize: 20)
@@ -19,7 +19,7 @@ class RocketStagesInfoView: UIView {
         return label
     }()
     
-    lazy var enginesLabel: UILabel = {
+    private lazy var enginesLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 16)
@@ -29,7 +29,7 @@ class RocketStagesInfoView: UIView {
         return label
     }()
     
-    lazy var enginesValueLabel: UILabel = {
+    private lazy var enginesValueLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .boldSystemFont(ofSize: 16)
@@ -39,7 +39,7 @@ class RocketStagesInfoView: UIView {
         return label
     }()
     
-    lazy var fuelAmountLabel: UILabel = {
+    private lazy var fuelAmountLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 16)
@@ -49,7 +49,7 @@ class RocketStagesInfoView: UIView {
         return label
     }()
     
-    lazy var fuelAmountValueLabel: UILabel = {
+    private lazy var fuelAmountValueLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .boldSystemFont(ofSize: 16)
@@ -59,7 +59,7 @@ class RocketStagesInfoView: UIView {
         return label
     }()
     
-    lazy var fuelAmountUnitsLabel: UILabel = {
+    private lazy var fuelAmountUnitsLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .boldSystemFont(ofSize: 16)
@@ -69,7 +69,7 @@ class RocketStagesInfoView: UIView {
         return label
     }()
     
-    lazy var burnTimeLabel: UILabel = {
+    private lazy var burnTimeLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 16)
@@ -79,7 +79,7 @@ class RocketStagesInfoView: UIView {
         return label
     }()
     
-    lazy var burnTimeValueLabel: UILabel = {
+    private lazy var burnTimeValueLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .boldSystemFont(ofSize: 16)
@@ -89,7 +89,7 @@ class RocketStagesInfoView: UIView {
         return label
     }()
     
-    lazy var burnTimeUnitsLabel: UILabel = {
+    private lazy var burnTimeUnitsLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .boldSystemFont(ofSize: 16)
@@ -115,6 +115,13 @@ class RocketStagesInfoView: UIView {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setupUI()
+    }
+    
+    func fillViews(label: String?, engines: String?, fuelAmount: String?, burnTime: String?) {
+        mainLabel.text = label
+        enginesValueLabel.text = engines
+        fuelAmountValueLabel.text = fuelAmount
+        burnTimeValueLabel.text = burnTime
     }
     
     private func setupUI() {

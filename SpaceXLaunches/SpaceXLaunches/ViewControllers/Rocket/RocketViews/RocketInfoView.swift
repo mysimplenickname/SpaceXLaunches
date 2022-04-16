@@ -9,7 +9,7 @@ import UIKit
 
 class RocketInfoView: UIView {
     
-    lazy var firstLaunchLabel: UILabel = {
+    private lazy var firstLaunchLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 16)
@@ -19,7 +19,7 @@ class RocketInfoView: UIView {
         return label
     }()
     
-    lazy var firstLaunchValueLabel: UILabel = {
+    private lazy var firstLaunchValueLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 16)
@@ -29,7 +29,7 @@ class RocketInfoView: UIView {
         return label
     }()
     
-    lazy var countryLabel: UILabel = {
+    private lazy var countryLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 16)
@@ -39,7 +39,7 @@ class RocketInfoView: UIView {
         return label
     }()
     
-    lazy var countryValueLabel: UILabel = {
+    private lazy var countryValueLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 16)
@@ -49,7 +49,7 @@ class RocketInfoView: UIView {
         return label
     }()
     
-    lazy var costLabel: UILabel = {
+    private lazy var costLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 16)
@@ -59,7 +59,7 @@ class RocketInfoView: UIView {
         return label
     }()
     
-    lazy var costValueLabel: UILabel = {
+    private lazy var costValueLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 16)
@@ -85,6 +85,12 @@ class RocketInfoView: UIView {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setupUI()
+    }
+    
+    func fillViews(firstLaunch: String?, country: String?, cost: String?) {
+        firstLaunchValueLabel.text = firstLaunch
+        countryValueLabel.text = country
+        costValueLabel.text = cost
     }
     
     private func setupUI() {

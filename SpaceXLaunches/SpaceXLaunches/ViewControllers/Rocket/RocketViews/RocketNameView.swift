@@ -9,17 +9,17 @@ import UIKit
 
 class RocketNameView: UIView {
     
-    lazy var nameLabel: UILabel = {
+    private lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 24)
+        label.font = .boldSystemFont(ofSize: 24)
         label.textColor = .white
         label.textAlignment = .left
         label.text = "nil"
         return label
     }()
     
-    lazy var settingsButton: UIButton = {
+    private lazy var settingsButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(systemName: "gearshape"), for: .normal)
@@ -37,11 +37,14 @@ class RocketNameView: UIView {
         setupUI()
     }
     
+    func fillViews(rocketName: String?) {
+        nameLabel.text = rocketName
+    }
+    
     private func setupUI() {
         
-        self.isUserInteractionEnabled = true
-        
         self.backgroundColor = .black
+        
         self.layer.cornerRadius = 24
         
         let stackView = UIStackView(arrangedSubviews: [nameLabel, settingsButton])

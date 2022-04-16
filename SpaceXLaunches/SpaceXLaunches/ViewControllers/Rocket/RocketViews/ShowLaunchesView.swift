@@ -9,7 +9,7 @@ import UIKit
 
 class ShowLaunchesView: UIView {
 
-    lazy var showLaunchesLabel: UILabel = {
+    private lazy var showLaunchesLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .boldSystemFont(ofSize: 20)
@@ -32,6 +32,7 @@ class ShowLaunchesView: UIView {
     private func setupUI() {
         
         self.backgroundColor = .darkGray2
+        
         self.layer.cornerRadius = 16
         
         self.addSubview(showLaunchesLabel)
@@ -41,6 +42,13 @@ class ShowLaunchesView: UIView {
             showLaunchesLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor)
         ])
         
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(showLaunchesButtonPressed(_:)))
+        self.addGestureRecognizer(tapGestureRecognizer)
+        
+    }
+    
+    @objc private func showLaunchesButtonPressed(_ sender: Any?) {
+        print("launches")
     }
     
 }
