@@ -42,13 +42,6 @@ class ShowLaunchesView: UIView {
             showLaunchesLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor)
         ])
         
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(showLaunchesButtonPressed(_:)))
-        self.addGestureRecognizer(tapGestureRecognizer)
-        
-    }
-    
-    @objc private func showLaunchesButtonPressed(_ sender: Any?) {
-        print("launches")
     }
     
 }

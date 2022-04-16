@@ -24,6 +24,7 @@ class RocketNameView: UIView {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(systemName: "gearshape"), for: .normal)
         button.addTarget(self, action: #selector(settingsButtonPressed(_:)), for: .touchUpInside)
+        button.isHidden = true
         return button
     }()
     

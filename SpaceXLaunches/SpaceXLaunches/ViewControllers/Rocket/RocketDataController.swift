@@ -5,7 +5,7 @@
 //  Created by Leo Malikov on 16.04.2022.
 //
 
-import Foundation
+import UIKit
 
 class RocketDataController {
     
@@ -13,63 +13,68 @@ class RocketDataController {
     
     var rocket: RocketModel?
     
-    init(for rocket: RocketModel) {
+    func getData(for rocket: RocketModel) {
         
         self.rocket = rocket
         
-        setBackgroundImage()
+        self.rocketViewController?.rocketParametersViewController.rocketId = rocket.id
         
-        DispatchQueue.main.async { [weak self] in
-            self?.fillViews()
-        }
-        
-    }
-    
-    private func setBackgroundImage() {
-        
-        guard
-            let rocket = rocket,
-            let imagesLinks = rocket.imagesLinks,
-            let imageUrl = imagesLinks.randomElement()
-        else { return }
-        
-        NetworkService.getImage(from: imageUrl) { image in
-            DispatchQueue.main.async { [weak self] in
-                self?.rocketViewController?.backgroundImageView.image = image
-            }
-        }
-        
-    }
-    
-    private func fillViews() {
-        
-        guard let rocket = rocket else { return }
-        
-        rocketViewController?.rocketNameView.fillViews(
+        self.rocketViewController?.fillRocketName(
             rocketName: rocket.name
         )
         
-        rocketViewController?.rocketInfoView.fillViews(
-            firstLaunch: rocket.firstLaunch,
-            country: rocket.country,
-            cost: rocket.launchCost?.description
+        self.rocketViewController?.fillRocketInfoView(
+            firstLaunch: DataFormatterService.formatDate(dateString: rocket.firstLaunch ?? "", option: .simple),
+            country: DataFormatterService.formatCountry(country: rocket.country ?? ""),
+            launchCost: DataFormatterService.formatCost(cost: rocket.launchCost ?? 0.0)
         )
         
-        rocketViewController?.rocketFirstStageInfoView.fillViews(
-            label: "Первая ступень".capitalized,
+        self.rocketViewController?.fillRocketFirstStageInfoView(
             engines: rocket.firstStage?.engines?.description,
             fuelAmount: rocket.firstStage?.fuelAmount?.description,
             burnTime: rocket.firstStage?.burnTime?.description
         )
         
-        rocketViewController?.rocketSecondStageInfoView.fillViews(
-            label: "Вторая ступень".capitalized,
+        self.rocketViewController?.fillRocketSecondStageInfoView(
             engines: rocket.secondStage?.engines?.description,
             fuelAmount: rocket.secondStage?.fuelAmount?.description,
             burnTime: rocket.secondStage?.burnTime?.description
         )
         
-        rocketViewController?.rocketParametersViewController.rocketId = rocket.id
+        guard
+            let imagesLinks = rocket.imagesLinks,
+            let imageUrl = imagesLinks.randomElement()
+        else { return }
+        
+        NetworkService.getImage(from: imageUrl) { [weak self] image in
+            DispatchQueue.main.async {
+                self?.rocketViewController?.activityIndicatorView.stopAnimating()
+                self?.rocketViewController?.activityIndicatorView.removeFromSuperview()
+                self?.rocketViewController?.setBackgroundImage(with: image)
+            }
+        }
+        
+    }
+    
+    func showLaunches() {
+        
+        let launchesViewController = LaunchesViewController()
+        launchesViewController.rocketId = rocket?.id
+        launchesViewController.title = rocket?.name
+        
+        rocketViewController?.navigationController?.navigationBar.titleTextAttributes = [
+            .backgroundColor: UIColor.clear,
+            .foregroundColor: UIColor.white
+        ]
+        rocketViewController?.navigationController?.navigationBar.barStyle = .black
+        rocketViewController?.navigationController?.navigationBar.topItem?.backBarButtonItem = UIBarButtonItem(
+            title: "Назад",
+            style: .plain,
+            target: nil,
+            action: nil
+        )
+        
+        rocketViewController?.navigationController?.pushViewController(launchesViewController, animated: true)
         
     }
     
