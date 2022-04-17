@@ -12,10 +12,10 @@ class RocketStagesInfoView: UIView {
     private lazy var mainLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .boldSystemFont(ofSize: 20)
+        label.font = .boldSystemFont(ofSize: 18)
         label.textColor = .white
         label.textAlignment = .left
-        label.text = "Ступень".capitalized
+        label.text = "ступень".uppercased()
         return label
     }()
     
@@ -35,7 +35,7 @@ class RocketStagesInfoView: UIView {
         label.font = .boldSystemFont(ofSize: 16)
         label.textColor = .white
         label.textAlignment = .right
-        label.text = "nil"
+        label.text = "-"
         return label
     }()
     
@@ -55,7 +55,7 @@ class RocketStagesInfoView: UIView {
         label.font = .boldSystemFont(ofSize: 16)
         label.textColor = .white
         label.textAlignment = .right
-        label.text = "nil"
+        label.text = "-"
         return label
     }()
     
@@ -85,7 +85,7 @@ class RocketStagesInfoView: UIView {
         label.font = .boldSystemFont(ofSize: 16)
         label.textColor = .white
         label.textAlignment = .right
-        label.text = "nil"
+        label.text = "-"
         return label
     }()
     

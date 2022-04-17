@@ -25,7 +25,7 @@ class RocketInfoView: UIView {
         label.font = .systemFont(ofSize: 16)
         label.textColor = .white
         label.textAlignment = .right
-        label.text = "nil"
+        label.text = "-"
         return label
     }()
     
@@ -45,7 +45,7 @@ class RocketInfoView: UIView {
         label.font = .systemFont(ofSize: 16)
         label.textColor = .white
         label.textAlignment = .right
-        label.text = "nil"
+        label.text = "-"
         return label
     }()
     
@@ -65,7 +65,7 @@ class RocketInfoView: UIView {
         label.font = .systemFont(ofSize: 16)
         label.textColor = .white
         label.textAlignment = .right
-        label.text = "nil"
+        label.text = "-"
         return label
     }()
     

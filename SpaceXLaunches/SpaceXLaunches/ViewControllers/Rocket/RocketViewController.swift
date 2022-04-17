@@ -113,7 +113,7 @@ final class RocketViewController: UIViewController {
         )
     }
     
-    func fillRocketFirstStageInfoView(text: String = "Первая ступень".capitalized, engines: String?, fuelAmount: String?, burnTime: String?) {
+    func fillRocketFirstStageInfoView(text: String = "Первая ступень".uppercased(), engines: String?, fuelAmount: String?, burnTime: String?) {
         rocketFirstStageInfoView.fillViews(
             label: text,
             engines: engines,
@@ -122,7 +122,7 @@ final class RocketViewController: UIViewController {
         )
     }
     
-    func fillRocketSecondStageInfoView(text: String = "Вторая ступень".capitalized, engines: String?, fuelAmount: String?, burnTime: String?) {
+    func fillRocketSecondStageInfoView(text: String = "Вторая ступень".uppercased(), engines: String?, fuelAmount: String?, burnTime: String?) {
         rocketSecondStageInfoView.fillViews(
             label: text,
             engines: engines,

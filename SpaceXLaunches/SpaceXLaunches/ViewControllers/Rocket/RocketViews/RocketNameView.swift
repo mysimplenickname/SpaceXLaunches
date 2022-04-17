@@ -15,7 +15,7 @@ class RocketNameView: UIView {
         label.font = .boldSystemFont(ofSize: 24)
         label.textColor = .white
         label.textAlignment = .left
-        label.text = "nil"
+        label.text = "-"
         return label
     }()
     
