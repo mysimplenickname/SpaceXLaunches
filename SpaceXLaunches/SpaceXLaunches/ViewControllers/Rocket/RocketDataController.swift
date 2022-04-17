@@ -62,19 +62,31 @@ class RocketDataController {
         launchesViewController.rocketId = rocket?.id
         launchesViewController.title = rocket?.name
         
+        configureNavigationBar()
+        
+        rocketViewController?.navigationController?.pushViewController(launchesViewController, animated: true)
+        
+    }
+    
+    private func configureNavigationBar() {
+        
         rocketViewController?.navigationController?.navigationBar.titleTextAttributes = [
             .backgroundColor: UIColor.clear,
             .foregroundColor: UIColor.white
         ]
+        
         rocketViewController?.navigationController?.navigationBar.barStyle = .black
-        rocketViewController?.navigationController?.navigationBar.topItem?.backBarButtonItem = UIBarButtonItem(
+        
+        let backBarButtonItem = UIBarButtonItem(
             title: "Назад",
             style: .plain,
             target: nil,
             action: nil
         )
         
-        rocketViewController?.navigationController?.pushViewController(launchesViewController, animated: true)
+        backBarButtonItem.tintColor = .white
+        
+        rocketViewController?.navigationController?.navigationBar.topItem?.backBarButtonItem = backBarButtonItem
         
     }
     
