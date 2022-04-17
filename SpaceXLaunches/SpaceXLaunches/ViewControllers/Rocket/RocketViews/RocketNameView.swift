@@ -19,13 +19,19 @@ class RocketNameView: UIView {
         return label
     }()
     
-    private lazy var settingsButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(UIImage(systemName: "gearshape"), for: .normal)
-        button.addTarget(self, action: #selector(settingsButtonPressed(_:)), for: .touchUpInside)
-        button.isHidden = true
-        return button
+    private(set) lazy var settingsImageView: UIImageView = {
+        
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        let image = UIImage(systemName: "gearshape")?.withRenderingMode(.alwaysTemplate)
+        imageView.image = image
+        imageView.tintColor = .white
+        
+        imageView.isUserInteractionEnabled = true
+
+        return imageView
+        
     }()
     
     override init(frame: CGRect) {
@@ -44,28 +50,26 @@ class RocketNameView: UIView {
     
     private func setupUI() {
         
-        self.backgroundColor = .black
+        backgroundColor = .black
         
-        self.layer.cornerRadius = 24
+        layer.cornerRadius = 24
         
-        let stackView = UIStackView(arrangedSubviews: [nameLabel, settingsButton])
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.widthAnchor.constraint(equalToConstant: self.frame.width - 32).isActive = true
-        stackView.axis = .horizontal
-        stackView.distribution = .fill
-        stackView.alignment = .fill
-        
-        self.addSubview(stackView)
+        addSubview(nameLabel)
+        addSubview(settingsImageView)
         
         NSLayoutConstraint.activate([
-            stackView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            stackView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
+        
+            nameLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
+            nameLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 16),
+            nameLabel.rightAnchor.constraint(equalTo: settingsImageView.leftAnchor),
+            
+            settingsImageView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            settingsImageView.rightAnchor.constraint(equalTo: rightAnchor, constant: -16),
+            settingsImageView.heightAnchor.constraint(equalToConstant: 32),
+            settingsImageView.widthAnchor.constraint(equalToConstant: 32)
+            
         ])
         
-    }
-    
-    @objc private func settingsButtonPressed(_ sender: Any?) {
-        print("hello")
     }
     
 }

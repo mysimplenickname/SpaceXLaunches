@@ -41,9 +41,15 @@ final class RocketViewController: UIViewController {
     }()
     
     private lazy var rocketNameView: RocketNameView = {
+        
         let rocketNameView = RocketNameView(frame: CGRect(x: 0.0, y: 0.0, width: view.frame.width, height: view.frame.width / 3))
         rocketNameView.translatesAutoresizingMaskIntoConstraints = false
+        
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(settingsButtonPressed(_:)))
+        rocketNameView.settingsImageView.addGestureRecognizer(tapGestureRecognizer)
+        
         return rocketNameView
+        
     }()
     
     private lazy var rocketInfoView: RocketInfoView = {
@@ -223,6 +229,10 @@ final class RocketViewController: UIViewController {
     
     @objc private func showLaunchesButtonPressed(_ sender: Any?) {
         rocketDataController?.showLaunches()
+    }
+    
+    @objc private func settingsButtonPressed(_ sender: Any?) {
+        rocketDataController?.showSettings()
     }
 
 }

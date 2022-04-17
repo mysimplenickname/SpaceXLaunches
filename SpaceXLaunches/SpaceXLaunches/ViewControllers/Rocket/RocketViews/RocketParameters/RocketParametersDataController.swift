@@ -29,25 +29,51 @@ class RocketParametersDataController {
         
     }
     
-    func getParameterValue(for parameterIndex: Int) -> Double? {
+    func getParametersCount() -> Int? {
+        return RocketParametersModel.Parameters.allCases.count
+    }
+    
+    func getParameterName(for parameterIndex: Int) -> String? {
+        
+        let parameter = RocketParametersModel.Parameters.allCases[parameterIndex]
+        
+        var units: String = ""
+        
+        switch parameter {
+        case .height:
+            units = UserSettings.shared.height.rawValue
+        case .diameter:
+            units = UserSettings.shared.diameter.rawValue
+        case .mass:
+            units = UserSettings.shared.mass.rawValue
+        case .capacity:
+            units = UserSettings.shared.capacity.rawValue
+        }
+        
+        return parameter.rawValue + ", " + units
+    }
+    
+    func getParameterValue(for parameterIndex: Int) -> String? {
         
         guard let rocketParameters = rocketParameters else { return nil }
         
-        let mirror = Mirror(reflecting: rocketParameters)
-        let value = mirror.children.enumerated().first { $0.offset == parameterIndex }?.element.value
+        let parameterType = RocketParametersModel.Parameters.allCases[parameterIndex]
+        let rocketParameter = rocketParameters.getParameterByParameterName(parameter: parameterType)
         
-        switch parameterIndex {
-        case 0:
-            return (value as? Height)?.meters
-        case 1:
-            return (value as? Diameter)?.meters
-        case 2:
-            return (value as? Mass)?.kg
-        case 3:
-            return (value as? [Capacity])?.first { $0.id == "leo" }?.kg
-        default:
-            return nil
+        var parameterValue: Double? = 0.0
+        
+        switch parameterType {
+        case .height:
+            parameterValue = (rocketParameter as? Height)?.getValueByUnit(unit: UserSettings.shared.height)
+        case .diameter:
+            parameterValue = (rocketParameter as? Diameter)?.getValueByUnit(unit: UserSettings.shared.diameter)
+        case .mass:
+            parameterValue = (rocketParameter as? Mass)?.getValueByUnit(unit: UserSettings.shared.mass)
+        case .capacity:
+            parameterValue = ((rocketParameter as? [Capacity])?.first { $0.id == "leo" })?.getValueByUnit(unit: UserSettings.shared.capacity)
         }
+        
+        return parameterValue?.description
         
     }
     

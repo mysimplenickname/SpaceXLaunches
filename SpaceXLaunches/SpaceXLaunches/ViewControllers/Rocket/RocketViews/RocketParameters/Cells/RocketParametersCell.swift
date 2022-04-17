@@ -37,9 +37,9 @@ final class RocketParametersCell: UICollectionViewCell {
         setupUI()
     }
     
-    func fillParameters(name: String?, value: Double?) {
-        parameterValueLabel.text = value?.description ?? "nil"
-        parameterNameLabel.text = name ?? "nil"
+    func fillParameters(name: String?, value: String?) {
+        parameterValueLabel.text = value ?? "-"
+        parameterNameLabel.text = name ?? "-"
     }
     
     private func setupUI() {

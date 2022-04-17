@@ -68,6 +68,18 @@ class RocketDataController {
         
     }
     
+    func showSettings() {
+        
+        let settingsViewController = SettingsViewController()
+        
+        rocketViewController?.present(settingsViewController, animated: true) {
+            
+            
+            
+        }
+        
+    }
+    
     private func configureNavigationBar() {
         
         rocketViewController?.navigationController?.navigationBar.titleTextAttributes = [

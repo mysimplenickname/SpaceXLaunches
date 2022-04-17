@@ -9,8 +9,6 @@ import UIKit
 
 final class RocketParametersViewController: UIViewController {
     
-    private let rocketParametersNames: [String] = ["Высота", "Диаметр", "Масса", "Нагрузка"]
-    
     private(set) lazy var collectionView: UICollectionView = {
 
         let itemSize = view.frame.width / 3 - 20
@@ -72,7 +70,7 @@ final class RocketParametersViewController: UIViewController {
 extension RocketParametersViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        rocketParametersNames.count
+        return rocketParametersDataController?.getParametersCount() ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -83,7 +81,7 @@ extension RocketParametersViewController: UICollectionViewDataSource, UICollecti
         ) as? RocketParametersCell else { return UICollectionViewCell() }
         
         cell.fillParameters(
-            name: rocketParametersNames[indexPath.row],
+            name: rocketParametersDataController?.getParameterName(for: indexPath.row),
             value: rocketParametersDataController?.getParameterValue(for: indexPath.row)
         )
         
