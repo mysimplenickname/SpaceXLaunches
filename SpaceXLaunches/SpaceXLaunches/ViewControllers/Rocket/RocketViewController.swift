@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class RocketViewController: UIViewController {
+class RocketViewController: UIViewController {
     
     private lazy var backgroundImageView: UIImageView = {
         let imageView = UIImageView(frame: CGRect(x: 0.0, y: 0.0, width: view.frame.width, height: view.frame.height))
@@ -235,4 +235,16 @@ final class RocketViewController: UIViewController {
         rocketDataController?.showSettings()
     }
 
+}
+
+extension RocketViewController: Delegate {
+    
+    func updateData() {
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.rocketParametersViewController.collectionView.reloadData()
+        }
+        
+    }
+    
 }

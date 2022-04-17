@@ -71,12 +71,8 @@ class RocketDataController {
     func showSettings() {
         
         let settingsViewController = SettingsViewController()
-        
-        rocketViewController?.present(settingsViewController, animated: true) {
-            
-            
-            
-        }
+        settingsViewController.rocketViewController = rocketViewController
+        rocketViewController?.present(settingsViewController, animated: true)
         
     }
     

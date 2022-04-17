@@ -7,7 +7,55 @@
 
 import UIKit
 
+protocol Delegate {
+    func updateData()
+}
+
 class SettingsViewController: UIViewController {
+    
+    weak var rocketViewController: RocketViewController?
+    
+    lazy var navigationView: UIView = {
+        
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .darkGray3
+        
+        let titleLabel = UILabel()
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.font = .systemFont(ofSize: 16)
+        titleLabel.textColor = .white
+        titleLabel.textAlignment = .center
+        titleLabel.text = "Настройки"
+        
+        let closeLabel = UILabel()
+        closeLabel.translatesAutoresizingMaskIntoConstraints = false
+        closeLabel.font = .boldSystemFont(ofSize: 16)
+        closeLabel.textColor = .white
+        closeLabel.textAlignment = .center
+        closeLabel.text = "Закрыть"
+        
+        closeLabel.isUserInteractionEnabled = true
+        
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(closeLabelTapped(_:)))
+        closeLabel.addGestureRecognizer(tapGestureRecognizer)
+        
+        view.addSubview(titleLabel)
+        view.addSubview(closeLabel)
+        
+        NSLayoutConstraint.activate([
+        
+            titleLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
+            closeLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            closeLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -32)
+            
+        ])
+        
+        return view
+        
+    }()
     
     lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -18,7 +66,6 @@ class SettingsViewController: UIViewController {
         tableView.allowsSelection = false
         tableView.isScrollEnabled = false
         tableView.separatorStyle = .none
-        tableView.contentInset = UIEdgeInsets(top: 16, left: 0, bottom: 0, right: 0)
         tableView.backgroundColor = .darkGray3
         return tableView
     }()
@@ -28,20 +75,44 @@ class SettingsViewController: UIViewController {
         setupUI()
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        guard let rocketViewController = rocketViewController else { return }
+        rocketViewController.updateData()
+        
+    }
+    
     private func setupUI() {
         
         view.backgroundColor = .darkGray3
         
         view.addSubview(tableView)
         
+        view.addSubview(navigationView)
+        
         NSLayoutConstraint.activate([
         
-            tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 16),
+            navigationView.topAnchor.constraint(equalTo: view.topAnchor, constant: 16),
+            navigationView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            navigationView.heightAnchor.constraint(equalToConstant: 40),
+            navigationView.widthAnchor.constraint(equalToConstant: view.frame.width),
+            
+            tableView.topAnchor.constraint(equalTo: navigationView.bottomAnchor, constant: 16),
             tableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16),
             tableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -16),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -16)
             
         ])
+        
+    }
+    
+    @objc private func closeLabelTapped(_ sender: Any?) {
+        
+        guard let rocketViewController = rocketViewController else { return }
+        rocketViewController.updateData()
+        
+        dismiss(animated: true)
         
     }
 
