@@ -47,10 +47,16 @@ class RocketDataController {
         else { return }
         
         NetworkService.getImage(from: imageUrl) { [weak self] image in
+            
+            guard
+                let sourceImage = image,
+                let croppedImage = self?.crop(image: sourceImage)
+            else { return }
+            
             DispatchQueue.main.async {
                 self?.rocketViewController?.activityIndicatorView.stopAnimating()
                 self?.rocketViewController?.activityIndicatorView.removeFromSuperview()
-                self?.rocketViewController?.setBackgroundImage(with: image)
+                self?.rocketViewController?.setBackgroundImage(with: croppedImage)
             }
         }
         
@@ -95,6 +101,32 @@ class RocketDataController {
         backBarButtonItem.tintColor = .white
         
         rocketViewController?.navigationController?.navigationBar.topItem?.backBarButtonItem = backBarButtonItem
+        
+    }
+    
+    private func crop(image: UIImage) -> UIImage? {
+        
+        guard
+            let width = rocketViewController?.view.frame.width,
+            let height = rocketViewController?.view.frame.height,
+            let sourceCGImage = image.cgImage
+        else { return nil }
+        
+        let xOffset = (image.size.width - width) / 2
+        let yOffset = (image.size.height - height) / 2
+        
+        let cropRect = CGRect(
+            x: xOffset > 0 ? xOffset : 0,
+            y: yOffset > 0 ? yOffset : 0,
+            width: width,
+            height: height
+        )
+        
+        if let croppedImage = sourceCGImage.cropping(to: cropRect) {
+            return UIImage(cgImage: croppedImage)
+        }
+        
+        return nil
         
     }
     

@@ -13,7 +13,7 @@ class RocketViewController: UIViewController {
         let imageView = UIImageView(frame: CGRect(x: 0.0, y: 0.0, width: view.frame.width, height: view.frame.height))
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.backgroundColor = .black
-        imageView.contentMode = .scaleToFill
+        imageView.contentMode = .top
         return imageView
     }()
     

@@ -29,6 +29,11 @@ class ShowLaunchesView: UIView {
         setupUI()
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        setupUI()
+    }
+    
     private func setupUI() {
         
         self.backgroundColor = .darkGray2

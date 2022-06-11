@@ -117,6 +117,11 @@ class RocketStagesInfoView: UIView {
         setupUI()
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        setupUI()
+    }
+    
     func fillViews(label: String?, engines: String?, fuelAmount: String?, burnTime: String?) {
         mainLabel.text = label
         enginesValueLabel.text = engines

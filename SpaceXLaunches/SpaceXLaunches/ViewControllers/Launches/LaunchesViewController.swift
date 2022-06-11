@@ -22,6 +22,26 @@ class LaunchesViewController: UIViewController {
         return tableView
     }()
 
+    lazy var activityIndicatorView: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicator.style = .medium
+        activityIndicator.color = .white
+        return activityIndicator
+    }()
+    
+    lazy var errorLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .systemFont(ofSize: 18)
+        label.textColor = .gray
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        label.text = nil
+        label.isHidden = true
+        return label
+    }()
+    
     private var launchesDataController: LaunchesDataController?
     
     var rocketId: String?
@@ -49,12 +69,24 @@ class LaunchesViewController: UIViewController {
         
         view.addSubview(tableView)
         
-        NSLayoutConstraint.activate([
+        view.addSubview(errorLabel)
         
+        view.addSubview(activityIndicatorView)
+        activityIndicatorView.startAnimating()
+        
+        NSLayoutConstraint.activate([
+            
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tableView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 16),
             tableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -16),
-            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            
+            errorLabel.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+            errorLabel.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor),
+            errorLabel.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor, constant: -32),
+            
+            activityIndicatorView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            activityIndicatorView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
             
         ])
         

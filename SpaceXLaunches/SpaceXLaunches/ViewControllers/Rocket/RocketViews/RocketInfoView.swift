@@ -87,6 +87,11 @@ class RocketInfoView: UIView {
         setupUI()
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        setupUI()
+    }
+    
     func fillViews(firstLaunch: String?, country: String?, cost: String?) {
         firstLaunchValueLabel.text = firstLaunch
         countryValueLabel.text = country

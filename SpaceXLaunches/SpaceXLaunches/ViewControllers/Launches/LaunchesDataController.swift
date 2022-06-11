@@ -15,12 +15,42 @@ class LaunchesDataController {
     
     func getLaunches(for rocketId: String) {
         
-        NetworkService.getLaunches(for: rocketId) { launches in
-            self.launches = launches.reversed()
+        NetworkService.getLaunches(for: rocketId) { (launches, error) in
             
-            DispatchQueue.main.async { [weak self] in
-                self?.launchesViewController?.tableView.reloadData()
+            if let error = error {
+                
+                DispatchQueue.main.async { [weak self] in
+                    self?.launchesViewController?.activityIndicatorView.stopAnimating()
+                    self?.launchesViewController?.activityIndicatorView.removeFromSuperview()
+                    self?.launchesViewController?.errorLabel.text = error.localizedDescription
+                    self?.launchesViewController?.errorLabel.isHidden = false
+                }
+                
+            } else if let launches = launches {
+                
+                if launches.count == 0 {
+                    
+                    DispatchQueue.main.async { [weak self] in
+                        self?.launchesViewController?.activityIndicatorView.stopAnimating()
+                        self?.launchesViewController?.activityIndicatorView.removeFromSuperview()
+                        self?.launchesViewController?.errorLabel.text = "There is no launches yet"
+                        self?.launchesViewController?.errorLabel.isHidden = false
+                    }
+                    
+                    return
+                    
+                }
+                
+                self.launches = launches.reversed()
+                
+                DispatchQueue.main.async { [weak self] in
+                    self?.launchesViewController?.activityIndicatorView.stopAnimating()
+                    self?.launchesViewController?.activityIndicatorView.removeFromSuperview()
+                    self?.launchesViewController?.tableView.reloadData()
+                }
+                
             }
+            
         }
         
     }

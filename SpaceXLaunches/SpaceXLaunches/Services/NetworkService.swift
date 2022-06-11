@@ -6,69 +6,143 @@
 //
 
 import UIKit
-import Alamofire
+
+enum NetworkError: Error {
+    case invalidStatusCode(statusCode: Int)
+}
+
+extension NetworkError: LocalizedError {
+    
+    public var errorDescription: String? {
+        switch self {
+        case .invalidStatusCode(let statusCode):
+            return NSLocalizedString("Invalid response code: \(statusCode)", comment: "Comment?")
+        }
+    }
+    
+}
 
 final class NetworkService {
     
     static func getRockets(completion: @escaping ([RocketModel]) -> Void) {
         
-        let rocketsBaseUrl = "https://api.spacexdata.com/v4/rockets"
+        let rocketsBaseUrl: URL = URL(string: "https://api.spacexdata.com/v4/rockets")!
         
         var rockets: [RocketModel] = []
         
-        AF
-            .request(rocketsBaseUrl, method: .get)
-            .response { response in
-                guard let data = response.data else { return }
-                do {
-                    rockets = try JSONDecoder().decode([RocketModel].self, from: data)
-                    completion(rockets)
-                } catch {
-                    print(error)
-                }
+        let sessionConfiguration = URLSessionConfiguration.default
+        sessionConfiguration.timeoutIntervalForRequest = 10
+        sessionConfiguration.timeoutIntervalForResource = 30
+        
+        let session = URLSession(configuration: sessionConfiguration)
+        
+        session.dataTask(with: rocketsBaseUrl) { (data, response, error) in
+            
+            guard
+                let data = data,
+                let response = response as? HTTPURLResponse,
+                (200..<300) ~= response.statusCode,
+                error == nil
+            else {
+                return
             }
-            .cacheResponse(using: .cache)
+            
+            do {
+                rockets = try JSONDecoder().decode([RocketModel].self, from: data)
+            } catch {
+                return
+            }
+            
+            DispatchQueue.main.async {
+                completion(rockets)
+            }
+            
+        }.resume()
         
     }
     
     static func getImage(from url: String, completion: @escaping (UIImage?) -> Void) {
         
-        AF
-            .request(url, method: .get)
-            .response { response in
-                guard let data = response.data else { return }
+        let url: URL = URL(string: url)!
+        let request = URLRequest(url: url)
+        
+        let MB: Int = 1024 * 1024
+        let urlCache = URLCache(memoryCapacity: 50 * MB, diskCapacity: 50 * MB, diskPath: "./images")
+        
+        let sessionConfiguration = URLSessionConfiguration.default
+        sessionConfiguration.timeoutIntervalForRequest = 10
+        sessionConfiguration.timeoutIntervalForResource = 30
+        sessionConfiguration.urlCache = urlCache
+        
+        let session = URLSession(configuration: sessionConfiguration)
+        
+        session.dataTask(with: request) { (data, response, error) in
+            
+            guard
+                let data = data,
+                let response = response as? HTTPURLResponse,
+                (200..<300) ~= response.statusCode,
+                error == nil
+            else {
+                return
+            }
+                        
+            DispatchQueue.main.async {
                 completion(UIImage(data: data))
             }
-            .cacheResponse(using: .cache)
+            
+        }.resume()
         
     }
     
     static func getRocketParameters(for rocketId: String, completion: @escaping (RocketParametersModel?) -> Void) {
         
-        let rocketsBaseUrl = "https://api.spacexdata.com/v4/rockets/"
+        let rocketsBaseUrl: URL = URL(string: "https://api.spacexdata.com/v4/rockets/\(rocketId)")!
         
         var rocketParameters: RocketParametersModel?
         
-        AF
-            .request(rocketsBaseUrl + rocketId, method: .get)
-            .response { response in
-                guard let data = response.data else { return }
-                do {
-                    rocketParameters = try JSONDecoder().decode(RocketParametersModel.self, from: data)
-                    completion(rocketParameters)
-                } catch {
-                    print(error)
-                }
+        let sessionConfiguration = URLSessionConfiguration.default
+        sessionConfiguration.timeoutIntervalForRequest = 10
+        sessionConfiguration.timeoutIntervalForResource = 30
+        
+        let session = URLSession(configuration: sessionConfiguration)
+        
+        session.dataTask(with: rocketsBaseUrl) { (data, response, error) in
+            
+            guard
+                let data = data,
+                let response = response as? HTTPURLResponse,
+                (200..<300) ~= response.statusCode,
+                error == nil
+            else {
+                return
             }
-            .cacheResponse(using: .cache)
+            
+            do {
+                rocketParameters = try JSONDecoder().decode(RocketParametersModel.self, from: data)
+            } catch {
+                return
+            }
+            
+            DispatchQueue.main.async {
+                completion(rocketParameters)
+            }
+            
+        }.resume()
         
     }
     
-    static func getLaunches(for rocketId: String, completion: @escaping ([LaunchModel]) -> Void) {
+    static func getLaunches(for rocketId: String, completion: @escaping ([LaunchModel]?, Error?) -> Void) {
         
-        let launchesBaseUrl = "https://api.spacexdata.com/v4/launches" + "/query"
+        let launchesBaseUrl: URL = URL(string: "https://api.spacexdata.com/v4/launches/query")!
         
-        let parameters: Parameters =
+        var request = URLRequest(url: launchesBaseUrl)
+        request.httpMethod = "POST"
+        
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        
+        let parameters: [String: Any] =
         [
             "query": [
                 "rocket": rocketId
@@ -82,22 +156,51 @@ final class NetworkService {
             ]
         ]
         
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
+        } catch let error {
+            completion(nil, error)
+            return
+        }
+        
         var launches: [LaunchModel] = []
         
-        AF
-            .request(launchesBaseUrl, method: .post, parameters: parameters)
-            .response { response in
-                guard let data = response.data else { return }
-                do {
-                    if let launcesResponse = try JSONDecoder().decode(LaunchesResponse.self, from: data).docs {
-                        launches = launcesResponse
-                    }
-                    completion(launches)
-                } catch {
-                    print(error)
-                }
+        let sessionConfiguration = URLSessionConfiguration.default
+        sessionConfiguration.timeoutIntervalForRequest = 10
+        sessionConfiguration.timeoutIntervalForResource = 30
+        
+        let session = URLSession(configuration: sessionConfiguration)
+        
+        session.dataTask(with: request) { (data, response, error) in
+            
+            guard
+                let data = data,
+                let response = response as? HTTPURLResponse,
+                error == nil
+            else {
+                completion(nil, error)
+                return
             }
-            .cacheResponse(using: .cache)
+            
+            guard (200..<300) ~= response.statusCode else {
+                completion(nil, NetworkError.invalidStatusCode(statusCode: response.statusCode))
+                return
+            }
+            
+            do {
+                if let launcesResponse = try JSONDecoder().decode(LaunchesResponse.self, from: data).docs {
+                    launches = launcesResponse
+                }
+            } catch let error {
+                completion(nil, error)
+                return
+            }
+            
+            DispatchQueue.main.async {
+                completion(launches, nil)
+            }
+            
+        }.resume()
         
     }
     

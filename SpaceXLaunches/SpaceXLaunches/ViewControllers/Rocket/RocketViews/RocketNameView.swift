@@ -44,6 +44,11 @@ class RocketNameView: UIView {
         setupUI()
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        setupUI()
+    }
+    
     func fillViews(rocketName: String?) {
         nameLabel.text = rocketName
     }
