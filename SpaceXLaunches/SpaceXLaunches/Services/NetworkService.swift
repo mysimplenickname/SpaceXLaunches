@@ -24,7 +24,7 @@ extension NetworkError: LocalizedError {
 
 final class NetworkService {
     
-    static func getRockets(completion: @escaping ([RocketModel]) -> Void) {
+    static func getRockets(completion: @escaping ([RocketModel]?, Error?) -> Void) {
         
         let rocketsBaseUrl: URL = URL(string: "https://api.spacexdata.com/v4/rockets")!
         
@@ -41,20 +41,26 @@ final class NetworkService {
             guard
                 let data = data,
                 let response = response as? HTTPURLResponse,
-                (200..<300) ~= response.statusCode,
                 error == nil
             else {
+                completion(nil, error)
+                return
+            }
+            
+            guard (200..<300) ~= response.statusCode else {
+                completion(nil, NetworkError.invalidStatusCode(statusCode: response.statusCode))
                 return
             }
             
             do {
                 rockets = try JSONDecoder().decode([RocketModel].self, from: data)
-            } catch {
+            } catch let error {
+                completion(nil, error)
                 return
             }
             
             DispatchQueue.main.async {
-                completion(rockets)
+                completion(rockets, nil)
             }
             
         }.resume()

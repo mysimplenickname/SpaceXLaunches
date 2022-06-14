@@ -28,7 +28,7 @@ class LaunchesDataController {
                 
             } else if let launches = launches {
                 
-                if launches.count == 0 {
+                if launches.isEmpty {
                     
                     DispatchQueue.main.async { [weak self] in
                         self?.launchesViewController?.activityIndicatorView.stopAnimating()

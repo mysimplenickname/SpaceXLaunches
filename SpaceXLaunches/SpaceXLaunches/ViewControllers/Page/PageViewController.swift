@@ -17,6 +17,18 @@ class PageViewController: UIViewController {
         return pageViewController
     }()
     
+    lazy var errorLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .systemFont(ofSize: 18)
+        label.textColor = .gray
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        label.text = nil
+        label.isHidden = true
+        return label
+    }()
+    
     private var pageDataController: PageDataController?
     
     override func viewDidLoad() {
@@ -31,9 +43,21 @@ class PageViewController: UIViewController {
     }
     
     private func setupUI() {
+        
+        view.addSubview(errorLabel)
+        
         addChild(pageViewController)
         view.addSubview(pageViewController.view)
         pageViewController.didMove(toParent: self)
+        
+        NSLayoutConstraint.activate([
+        
+            errorLabel.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+            errorLabel.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor),
+            errorLabel.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor, constant: -32)
+            
+        ])
+        
     }
 
 }

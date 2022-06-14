@@ -19,23 +19,45 @@ class PageDataController {
     
     init() {
         
-        NetworkService.getRockets { [weak self] rockets in
+        NetworkService.getRockets { [weak self] (rockets, error) in
             
-            self?.rockets = rockets
-            
-            self?.rocketsViewControllers = rockets.map { rocket in
-                let rocketViewController = RocketViewController()
-                rocketViewController.rocket = rocket
-                return rocketViewController
+            if let error = error {
+                
+                DispatchQueue.main.async {
+                    self?.pageViewController?.errorLabel.text = error.localizedDescription
+                    self?.pageViewController?.errorLabel.isHidden = false
+                }
+                
+            } else if let rockets = rockets {
+                
+                if rockets.isEmpty {
+                    
+                    DispatchQueue.main.async {
+                        self?.pageViewController?.errorLabel.text = "There is no rockets yet"
+                        self?.pageViewController?.errorLabel.isHidden = false
+                    }
+                    
+                    return
+                    
+                }
+                
+                self?.rockets = rockets
+                
+                self?.rocketsViewControllers = rockets.map { rocket in
+                    let rocketViewController = RocketViewController()
+                    rocketViewController.rocket = rocket
+                    return rocketViewController
+                }
+                
+                guard let firstRocketViewController = self?.rocketsViewControllers?.first else { return }
+                
+                self?.pageViewController?.pageViewController.setViewControllers(
+                    [firstRocketViewController],
+                    direction: .forward,
+                    animated: true
+                )
+                
             }
-            
-            guard let firstRocketViewController = self?.rocketsViewControllers?.first else { return }
-            
-            self?.pageViewController?.pageViewController.setViewControllers(
-                [firstRocketViewController],
-                direction: .forward,
-                animated: true
-            )
             
         }
         
